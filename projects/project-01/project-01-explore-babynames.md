@@ -31,12 +31,28 @@ library(tidyverse)
 # Read the csv file `file_name_names` as data frame `tbl_names`
 file_name_names <- here::here("data/names.csv.gz")
 tbl_names <- readr::read_csv(
-  file = ___, 
+  file = file_name_names, 
   show_col_types = FALSE
 )
 
 # Print `tbl_names`
+tbl_names
 ```
+
+    #> # A tibble: 2,052,781 × 4
+    #>     year name      sex   nb_births
+    #>    <dbl> <chr>     <chr>     <dbl>
+    #>  1  1880 Mary      F          7065
+    #>  2  1880 Anna      F          2604
+    #>  3  1880 Emma      F          2003
+    #>  4  1880 Elizabeth F          1939
+    #>  5  1880 Minnie    F          1746
+    #>  6  1880 Margaret  F          1578
+    #>  7  1880 Ida       F          1472
+    #>  8  1880 Alice     F          1414
+    #>  9  1880 Bertha    F          1320
+    #> 10  1880 Sarah     F          1288
+    #> # ℹ 2,052,771 more rows
 
 ### Question 1: \[Popular Names\] What are the most popular names?
 
@@ -56,21 +72,36 @@ names of the decade starting in 2011.
 ``` r
 tbl_names_popular = tbl_names |> 
   # Keep ROWS for year > 2010 and <= 2020
-  filter(year > ___, ___ <= ___) |> 
+  filter(year > 2010, year <= 2020) |> 
   # Group by sex and name
-  group_by(___, ___) |> 
+  group_by(sex, name) |> 
   # Summarize the number of births
   summarize(
-    nb_births = ___(nb_births),
+    nb_births = sum(nb_births),
     .groups = "drop"
   ) |> 
   # Group by sex 
-  ___(___) |>  
+  group_by(sex) |>  
   # For each sex, keep the top 5 rows by number of births
-  slice_max(___, n = ___)
+  slice_max(nb_births,n = 5)
 
 tbl_names_popular
 ```
+
+    #> # A tibble: 10 × 3
+    #> # Groups:   sex [2]
+    #>    sex   name     nb_births
+    #>    <chr> <chr>        <dbl>
+    #>  1 F     Emma        193138
+    #>  2 F     Olivia      184966
+    #>  3 F     Sophia      173341
+    #>  4 F     Isabella    159570
+    #>  5 F     Ava         153414
+    #>  6 M     Noah        184977
+    #>  7 M     Liam        182646
+    #>  8 M     William     155326
+    #>  9 M     Mason       152944
+    #> 10 M     Jacob       150145
 
 #### Visualize
 
@@ -88,18 +119,18 @@ tbl_names_popular |>
   # Reorder the names by number of births
   mutate(name = fct_reorder(name, nb_births)) |>
   # Initialize a ggplot for name vs. nb_births
-  ggplot(aes(x = ___, y = ___)) +
+  ggplot(aes(x = nb_births, y = name)) +
   # Add a column plot layer
   geom_col() +
   # Facet the plots by sex
-  facet_wrap(~ ___, scales = "free_y") +
+  facet_wrap(~ sex, scales = "free_y") +
   # Add labels (title, subtitle, caption, x, y)
   labs(
-    title = '___',
-    subtitle = '___',
-    caption = '___',
-    x = '___',
-    y = '___'
+    title = 'USA: Most DUPLICATE Baby Names (2010-2020)',
+    subtitle = 'Most POPULAR names',
+    caption = 'DATABASE: SSA',
+    x = 'No: of births',
+    y = 'WELL KNOWN Names'
   ) +
   # Fix the x-axis scale 
   scale_x_continuous(
@@ -111,6 +142,8 @@ tbl_names_popular |>
     plot.title.position = 'plot'
   )
 ```
+
+<img src="img/question-1-visualize-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Question 2: \[Trendy Names\] What are trendy names?
 
@@ -147,24 +180,39 @@ transformation.
 ``` r
 tbl_names_popular_trendy = tbl_names |> 
   # Group by sex and name
-  ___(___, ___) |> 
+  group_by(sex, name) |> 
   # Summarize total number of births and max births in a year
   summarize(
-    nb_births_total = ___(___),
-    nb_births_max = ___(___),
+    nb_births_total = sum(nb_births),
+    nb_births_max = max(nb_births),
     .groups = "drop"
   ) |> 
   # Filter for names with at least 10000 births
-  ___(___ > ___) |> 
+  filter(nb_births_total > 10000) |> 
   # Add a column for trendiness computed as ratio of max to total
-  ___(___ = ___ / ___) |> 
+  mutate(trendiness = nb_births_max / nb_births_total) |> 
   # Group by sex
-  ___(___) |> 
+  group_by(sex) |> 
   # Slice top 5 rows by trendiness for each group
-  ___(___, n = ___)
+  slice_max(trendiness, n = 5)
 
 tbl_names_popular_trendy
 ```
+
+    #> # A tibble: 10 × 5
+    #> # Groups:   sex [2]
+    #>    sex   name      nb_births_total nb_births_max trendiness
+    #>    <chr> <chr>               <dbl>         <dbl>      <dbl>
+    #>  1 F     Katina              11284          2745      0.243
+    #>  2 F     Ashanti             12141          2945      0.243
+    #>  3 F     Marquita            11010          2543      0.231
+    #>  4 F     Everleigh           12738          2814      0.221
+    #>  5 F     Miley               12865          2649      0.206
+    #>  6 M     Luka                14393          3197      0.222
+    #>  7 M     Atlas               11869          2523      0.213
+    #>  8 M     Jase                22062          4552      0.206
+    #>  9 M     Legend              16153          3152      0.195
+    #> 10 M     Jayceon             11606          2013      0.173
 
 |                                                                                                                                                                                                                                                                                                                                       |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -181,23 +229,30 @@ function to plot the trends for different names.
 plot_trends_in_name <- function(my_name) {
   tbl_names |> 
     # Filter for name = my_name
-    ___(___ == my_name) |> 
+    filter(name == my_name) |> 
     # Initialize a ggplot of `nb_births` vs. `year` colored by `sex`
-    ___(___(x = ___, y = ___, color = ___)) +
+    ggplot(aes(x = year, y = nb_births, color = sex)) +
     # Add a line layer
-    ___() +
+    geom_line() +
     # Add labels (title, x, y)
     labs(
       title = glue::glue("Babies named {my_name} across the years!"),
-      x = '___',
-      y = '___'
+      x = 'year',
+      y = 'number of births'
     ) +
     # Update plot theme
     theme(plot.title.position = "plot")
 }
 plot_trends_in_name("Steve")
+```
+
+<img src="img/question-2-visualize-1.png" width="100%" style="display: block; margin: auto;" />
+
+``` r
 plot_trends_in_name("Barbara")
 ```
+
+<img src="img/question-2-visualize-2.png" width="100%" style="display: block; margin: auto;" />
 
 ### Question 3: \[Exploring Letter Popularity\] What makes certain letters more popular in names?
 
@@ -225,12 +280,27 @@ tbl_names = tbl_names |>
   # Add NEW column first_letter by extracting `first_letter` from name using `str_sub`
   mutate(first_letter = str_sub(name, 1, 1)) |>  
   # Add NEW column last_letter by extracting `last_letter` from name using `str_sub`
-  ___(last_letter = ___(name, -1, -1)) |> 
+  mutate(last_letter = str_sub(name, -1, -1)) |> 
   # UPDATE column `last_letter` to upper case using `str_to_upper`
-  ___(last_letter = ___(___))
+  mutate(last_letter = str_to_upper(last_letter))
 
 tbl_names
 ```
+
+    #> # A tibble: 2,052,781 × 6
+    #>     year name      sex   nb_births first_letter last_letter
+    #>    <dbl> <chr>     <chr>     <dbl> <chr>        <chr>      
+    #>  1  1880 Mary      F          7065 M            Y          
+    #>  2  1880 Anna      F          2604 A            A          
+    #>  3  1880 Emma      F          2003 E            A          
+    #>  4  1880 Elizabeth F          1939 E            H          
+    #>  5  1880 Minnie    F          1746 M            E          
+    #>  6  1880 Margaret  F          1578 M            T          
+    #>  7  1880 Ida       F          1472 I            A          
+    #>  8  1880 Alice     F          1414 A            E          
+    #>  9  1880 Bertha    F          1320 B            A          
+    #> 10  1880 Sarah     F          1288 S            H          
+    #> # ℹ 2,052,771 more rows
 
 Begin by computing the distribution of births across year and sex by
 first letter of a name.
@@ -248,6 +318,8 @@ tbl_names_by_letter = tbl_names |>
   
 tbl_names_by_letter
 ```
+
+    #> Error: The pipe operator requires a function call as RHS (<text>:3:3)
 
 #### Visualize
 
@@ -285,6 +357,8 @@ tbl_names_by_letter |>
   )
 ```
 
+    #> Error in eval(expr, envir, enclos): object 'tbl_names_by_letter' not found
+
 Write a function that plot trends in the percentage of births for all
 names starting with a specific first letter.
 
@@ -313,6 +387,8 @@ plot_trends_in_letter <- function(my_letter) {
 
 plot_trends_in_letter("S")
 ```
+
+    #> Error in plot_trends_in_letter("S"): object 'tbl_names_by_letter' not found
 
 |                                                                                                                                                                                                                                                                                         |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -350,6 +426,8 @@ tbl_names_by_first_and_last_letter = tbl_names |>
 tbl_names_by_first_and_last_letter
 ```
 
+    #> Error: The pipe operator requires a function call as RHS (<text>:18:1)
+
 #### Visualize
 
 Now, you will visualize the distribution of `pct_births` by
@@ -381,6 +459,8 @@ tbl_names_by_first_and_last_letter |>
     axis.ticks = element_blank()
   )
 ```
+
+    #> Error in eval(expr, envir, enclos): object 'tbl_names_by_first_and_last_letter' not found
 
 ### Question 5: \[Vowels vs Consonants\] Are there naming trends in usage of vowels and consonants?
 
@@ -433,6 +513,8 @@ tbl_names_vowel_consonant <- tbl_names |>
 tbl_names_vowel_consonant
 ```
 
+    #> Error: The pipe operator requires a function call as RHS (<text>:27:1)
+
 #### Visualize
 
 Now, you will create a visualization to display the trends in the usage
@@ -475,6 +557,8 @@ tbl_names_vowel_consonant |>
     legend.position = 'bottom'
   )
 ```
+
+    #> Error in eval(expr, envir, enclos): object 'tbl_names_vowel_consonant' not found
 
 ------------------------------------------------------------------------
 
