@@ -241,24 +241,23 @@ Visualize the distribution of births by first letter for the year 2020, faceted 
 ```{r question-3-visualize-1}
 tbl_names_by_letter |> 
   # Filter for the year 2020
-   
+   filter(year ==2020) |>
   # Initialize a ggplot of pct_births vs. first_letter
-  
+  ggplot(aes(x=first_letter, y=pct_births)) +
   # Add a column layer using `geom_col()`
-  
+  geom_col() +
   # Facet wrap plot by sex
-  
+  facet_wrap(~sex, scales="free_y") +
   # Add labels (title, subtitle, x, y)
-  
-  
-
-
-
-
-  
+  labs(
+  title = 'birth rate distribution 2020',
+  subtitle = 'based on letters',
+  x = 'first letters in names',
+  y = 'percentage of letters'
+  ) +
   # Fix scales of y axis
   scale_y_continuous(
-    expand = c(0, 0),
+    expand = c(0.25, 0),
     labels = scales::percent_format(accuracy = 1L)
   ) +
   # Update plotting theme

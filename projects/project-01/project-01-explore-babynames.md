@@ -343,24 +343,23 @@ faceted by sex.
 ``` r
 tbl_names_by_letter |> 
   # Filter for the year 2020
-   
+   filter(year ==2020) |>
   # Initialize a ggplot of pct_births vs. first_letter
-  
+  ggplot(aes(x=first_letter, y=pct_births)) +
   # Add a column layer using `geom_col()`
-  
+  geom_col() +
   # Facet wrap plot by sex
-  
+  facet_wrap(~sex, scales="free_y") +
   # Add labels (title, subtitle, x, y)
-  
-  
-
-
-
-
-  
+  labs(
+  title = 'birth rate distribution 2020',
+  subtitle = 'based on letters',
+  x = 'first letters in names',
+  y = 'percentage of letters'
+  ) +
   # Fix scales of y axis
   scale_y_continuous(
-    expand = c(0, 0),
+    expand = c(0.25, 0),
     labels = scales::percent_format(accuracy = 1L)
   ) +
   # Update plotting theme
@@ -371,9 +370,7 @@ tbl_names_by_letter |>
   )
 ```
 
-    #> Error:
-    #> ! Cannot add <ggproto> objects together
-    #> ℹ Did you forget to add this object to a <ggplot> object?
+<img src="img/question-3-visualize-1-1.png" width="100%" style="display: block; margin: auto;" />
 
 Write a function that plot trends in the percentage of births for all
 names starting with a specific first letter.
