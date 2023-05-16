@@ -463,14 +463,15 @@ tbl_names_by_first_and_last_letter |>
   # Initialize a ggplot of last_letter vs. first_letter
   ggplot(aes(x=first_letter, y=last_letter)) +
   # Add a `geom_tile` layer with fill mapped to pct_births
-  geom_tile(aes(fill+pct_births)) +
+  geom_tile(aes(fill=pct_births)) +
   # Add labels (title, subtitle, x, y, fill)
  labs(
-  
-  
-  
-
-
+   title = "% of 1st & last letter COMBINATIONS in names",
+   subtitle = " DATA from year 2021",
+   caption = " Baby Names COMBINATIONS for 1st & last letter (2021)",
+   x = "first letter",
+   y = "last letter"
+ ) +
 
   # Update fill scale to use Viridis colors
   scale_fill_viridis_b(direction = -1) +
@@ -482,10 +483,7 @@ tbl_names_by_first_and_last_letter |>
   )
 ```
 
-    #> Error: <text>:24:0: unexpected end of input
-    #> 22:     axis.ticks = element_blank()
-    #> 23:   )
-    #>    ^
+<img src="img/question-4-visualize-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Question 5: \[Vowels vs Consonants\] Are there naming trends in usage of vowels and consonants?
 
