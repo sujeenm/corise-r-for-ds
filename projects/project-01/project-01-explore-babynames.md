@@ -528,12 +528,26 @@ tbl_names_vowel_consonant <- tbl_names |>
   # Ungroup the data
   ungroup() |>
   # Unite `first_letter_type` and `last_letter_type` into a NEW column named `first_last`
-  
+  mutate(first_last = paste(first_letter_type, last_letter_type, sep = "-"))
 
 tbl_names_vowel_consonant
 ```
 
-    #> Error: The pipe operator requires a function call as RHS (<text>:24:1)
+    #> # A tibble: 1,136 × 7
+    #>    sex    year first_letter_type last_letter_type nb_births pct_births
+    #>    <chr> <dbl> <chr>             <chr>                <dbl>      <dbl>
+    #>  1 F      1880 consonant         consonant            19988     0.220 
+    #>  2 F      1880 consonant         vowel                46765     0.514 
+    #>  3 F      1880 vowel             consonant             5708     0.0627
+    #>  4 F      1880 vowel             vowel                18533     0.204 
+    #>  5 F      1881 consonant         consonant            20069     0.218 
+    #>  6 F      1881 consonant         vowel                47287     0.514 
+    #>  7 F      1881 vowel             consonant             5669     0.0617
+    #>  8 F      1881 vowel             vowel                18928     0.206 
+    #>  9 F      1882 consonant         consonant            23561     0.218 
+    #> 10 F      1882 consonant         vowel                55449     0.514 
+    #> # ℹ 1,126 more rows
+    #> # ℹ 1 more variable: first_last <chr>
 
 #### Visualize
 
@@ -578,7 +592,9 @@ tbl_names_vowel_consonant |>
   )
 ```
 
-    #> Error in eval(expr, envir, enclos): object 'tbl_names_vowel_consonant' not found
+    #> Error:
+    #> ! Cannot add <ggproto> objects together
+    #> ℹ Did you forget to add this object to a <ggplot> object?
 
 ------------------------------------------------------------------------
 

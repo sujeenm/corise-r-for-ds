@@ -514,29 +514,40 @@ get_letter_type <- function(letter) {
 
 tbl_names_vowel_consonant <- tbl_names |> 
   # Add NEW column named `first_letter_type`
-  
+  mutate(first_letter_type = get_letter_type(first_letter)) |>
   # Add NEW column named `last_letter_type`
-  
+  mutate(last_letter_type = get_letter_type(last_letter)) |>
   # Group by `sex`, `year`, `first_letter_type` and `last_letter_type`
-  
+  group_by(sex, year, first_letter_type, last_letter_type) |>
   # Summarize the total number of births
-  
-  
-  
-  
+  summarize(nb_births =sum(nb_births), .groups = "drop") |>
   # Group by `sex` and` `year`
-  
+  group_by(sex, year) |>
   # Add NEW column with `pct_births` calculated as `nb_births / sum(nb_births)`
-   
+  mutate(pct_births = nb_births / sum(nb_births)) |>
   # Ungroup the data
-  
+  ungroup() |>
   # Unite `first_letter_type` and `last_letter_type` into a NEW column named `first_last`
- 
+  mutate(first_last = paste(first_letter_type, last_letter_type, sep = "-"))
 
 tbl_names_vowel_consonant
 ```
 
-    #> Error: The pipe operator requires a function call as RHS (<text>:27:1)
+    #> # A tibble: 1,136 × 7
+    #>    sex    year first_letter_type last_letter_type nb_births pct_births
+    #>    <chr> <dbl> <chr>             <chr>                <dbl>      <dbl>
+    #>  1 F      1880 consonant         consonant            19988     0.220 
+    #>  2 F      1880 consonant         vowel                46765     0.514 
+    #>  3 F      1880 vowel             consonant             5708     0.0627
+    #>  4 F      1880 vowel             vowel                18533     0.204 
+    #>  5 F      1881 consonant         consonant            20069     0.218 
+    #>  6 F      1881 consonant         vowel                47287     0.514 
+    #>  7 F      1881 vowel             consonant             5669     0.0617
+    #>  8 F      1881 vowel             vowel                18928     0.206 
+    #>  9 F      1882 consonant         consonant            23561     0.218 
+    #> 10 F      1882 consonant         vowel                55449     0.514 
+    #> # ℹ 1,126 more rows
+    #> # ℹ 1 more variable: first_last <chr>
 
 #### Visualize
 
@@ -581,7 +592,9 @@ tbl_names_vowel_consonant |>
   )
 ```
 
-    #> Error in eval(expr, envir, enclos): object 'tbl_names_vowel_consonant' not found
+    #> Error:
+    #> ! Cannot add <ggproto> objects together
+    #> ℹ Did you forget to add this object to a <ggplot> object?
 
 ------------------------------------------------------------------------
 

@@ -392,7 +392,7 @@ tbl_names_vowel_consonant <- tbl_names |>
   # Ungroup the data
   ungroup() |>
   # Unite `first_letter_type` and `last_letter_type` into a NEW column named `first_last`
-  
+  mutate(first_last = paste(first_letter_type, last_letter_type, sep = "-"))
 
 tbl_names_vowel_consonant
 ```
