@@ -421,25 +421,45 @@ letter combinations and how they have evolved over the years.
 ``` r
 tbl_names_by_first_and_last_letter = tbl_names |> 
   # Filter for sex = "F"
-  
+  filter(sex == "F") |>
   # Group by `first_letter`, `last_letter`, and `year`
-  
+  group_by(first_letter, last_letter, year)
   # Summarize total number of births
-  
-  
-  
-  
+  summarize(nb_births = sum(nb_births), .groups = "drop") |>
   # Group by `year`
-  
+  group_by(year)
+```
+
+    #> Error in eval(expr, envir, enclos): object 'nb_births' not found
+
+``` r
   # Add NEW column pct_births by dividing nb_births by sum(nb_births)
-
+  mutate(pct_births = nb_births/sum(nb_births)) |>
   # Ungroup data
+  ungroup()
+```
 
+    #> Error in eval(expr, envir, enclos): object 'nb_births' not found
 
+``` r
 tbl_names_by_first_and_last_letter
 ```
 
-    #> Error: The pipe operator requires a function call as RHS (<text>:18:1)
+    #> # A tibble: 1,209,866 × 6
+    #> # Groups:   first_letter, last_letter, year [43,579]
+    #>     year name      sex   nb_births first_letter last_letter
+    #>    <dbl> <chr>     <chr>     <dbl> <chr>        <chr>      
+    #>  1  1880 Mary      F          7065 M            Y          
+    #>  2  1880 Anna      F          2604 A            A          
+    #>  3  1880 Emma      F          2003 E            A          
+    #>  4  1880 Elizabeth F          1939 E            H          
+    #>  5  1880 Minnie    F          1746 M            E          
+    #>  6  1880 Margaret  F          1578 M            T          
+    #>  7  1880 Ida       F          1472 I            A          
+    #>  8  1880 Alice     F          1414 A            E          
+    #>  9  1880 Bertha    F          1320 B            A          
+    #> 10  1880 Sarah     F          1288 S            H          
+    #> # ℹ 1,209,856 more rows
 
 #### Visualize
 
@@ -473,7 +493,9 @@ tbl_names_by_first_and_last_letter |>
   )
 ```
 
-    #> Error in eval(expr, envir, enclos): object 'tbl_names_by_first_and_last_letter' not found
+    #> Error:
+    #> ! Cannot add <ggproto> objects together
+    #> ℹ Did you forget to add this object to a <ggplot> object?
 
 ### Question 5: \[Vowels vs Consonants\] Are there naming trends in usage of vowels and consonants?
 

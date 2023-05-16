@@ -314,21 +314,17 @@ Are you ready to explore the fascinating realm of letter combinations in names? 
 ```{r question-4-transform}
 tbl_names_by_first_and_last_letter = tbl_names |> 
   # Filter for sex = "F"
-  
+  filter(sex == "F") |>
   # Group by `first_letter`, `last_letter`, and `year`
-  
+  group_by(first_letter, last_letter, year)
   # Summarize total number of births
-  
-  
-  
-  
+  summarize(nb_births = sum(nb_births), .groups = "drop") |>
   # Group by `year`
-  
+  group_by(year)
   # Add NEW column pct_births by dividing nb_births by sum(nb_births)
-
+  mutate(pct_births = nb_births/sum(nb_births)) |>
   # Ungroup data
-
-
+  ungroup()
 tbl_names_by_first_and_last_letter
 ```
      
