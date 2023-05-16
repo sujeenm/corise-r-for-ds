@@ -308,18 +308,32 @@ first letter of a name.
 ``` r
 tbl_names_by_letter = tbl_names |> 
   # Group by year, sex and first_letter
-  ___(___, ___, ___) |> 
+  group_by(year, sex, first_letter) |> 
   # Summarize total number of births, drop the grouping
-  ___(___ = ___(___), .groups = "drop") |> 
+  summarize(nb_births= sum(nb_births), .groups = "drop") |> 
   # Group by year and sex
-  ___(___, ___) |> 
+  group_by(year, sex) |> 
   # Add NEW column pct_births by dividing nb_births by sum(nb_births)
-  mutate(pct_births = ___ / sum(___))
+  mutate(pct_births = nb_births/ sum(nb_births))
   
 tbl_names_by_letter
 ```
 
-    #> Error: The pipe operator requires a function call as RHS (<text>:3:3)
+    #> # A tibble: 7,313 × 5
+    #> # Groups:   year, sex [284]
+    #>     year sex   first_letter nb_births pct_births
+    #>    <dbl> <chr> <chr>            <dbl>      <dbl>
+    #>  1  1880 F     A                 9334     0.103 
+    #>  2  1880 F     B                 3876     0.0426
+    #>  3  1880 F     C                 5868     0.0645
+    #>  4  1880 F     D                 2218     0.0244
+    #>  5  1880 F     E                11444     0.126 
+    #>  6  1880 F     F                 2957     0.0325
+    #>  7  1880 F     G                 2463     0.0271
+    #>  8  1880 F     H                 2743     0.0301
+    #>  9  1880 F     I                 2480     0.0273
+    #> 10  1880 F     J                 3800     0.0418
+    #> # ℹ 7,303 more rows
 
 #### Visualize
 
@@ -357,7 +371,9 @@ tbl_names_by_letter |>
   )
 ```
 
-    #> Error in eval(expr, envir, enclos): object 'tbl_names_by_letter' not found
+    #> Error:
+    #> ! Cannot add <ggproto> objects together
+    #> ℹ Did you forget to add this object to a <ggplot> object?
 
 Write a function that plot trends in the percentage of births for all
 names starting with a specific first letter.
@@ -388,7 +404,7 @@ plot_trends_in_letter <- function(my_letter) {
 plot_trends_in_letter("S")
 ```
 
-    #> Error in plot_trends_in_letter("S"): object 'tbl_names_by_letter' not found
+    #> NULL
 
 |                                                                                                                                                                                                                                                                                         |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

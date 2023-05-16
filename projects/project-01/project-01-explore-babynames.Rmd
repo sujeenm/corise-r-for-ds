@@ -223,13 +223,13 @@ Begin by computing the distribution of births across year and sex by first lette
 ```{r question-3-transform-2}
 tbl_names_by_letter = tbl_names |> 
   # Group by year, sex and first_letter
-  ___(___, ___, ___) |> 
+  group_by(year, sex, first_letter) |> 
   # Summarize total number of births, drop the grouping
-  ___(___ = ___(___), .groups = "drop") |> 
+  summarize(nb_births= sum(nb_births), .groups = "drop") |> 
   # Group by year and sex
-  ___(___, ___) |> 
+  group_by(year, sex) |> 
   # Add NEW column pct_births by dividing nb_births by sum(nb_births)
-  mutate(pct_births = ___ / sum(___))
+  mutate(pct_births = nb_births/ sum(nb_births))
   
 tbl_names_by_letter
 ```
