@@ -381,16 +381,16 @@ plot_trends_in_letter <- function(my_letter) {
     # Filter for first_letter = my_letter
     filter(first_letter == my_letter) |> 
     # Initialize a ggplot of pct_births vs. year colored by sex
-    
+    ggplot(aes(x=year, y=pct_births, color_sex)) +
     # Add a line layer
-    
+    geom_line() +
     # Add labels (title, subtitle, caption, x, y)
     labs(
       title = glue::glue("Trends in Names beginning with {my_letter}"),
-      subtitle = "___",
-      caption = "___",
-      x = "___",
-      y = '___'
+      subtitle = "Display trends for individual SEX",
+      caption = glue::glue("trends for letter {my_letter}"),
+      x = "years",
+      y = '% of names'
     ) +
     # Update y-axis scales to display percentages
     scale_y_continuous(labels = scales::percent_format()) +
@@ -401,7 +401,7 @@ plot_trends_in_letter <- function(my_letter) {
 plot_trends_in_letter("S")
 ```
 
-    #> NULL
+<img src="img/question-3-visualize-2-1.png" width="100%" style="display: block; margin: auto;" />
 
 |                                                                                                                                                                                                                                                                                         |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
