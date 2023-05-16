@@ -316,11 +316,11 @@ tbl_names_by_first_and_last_letter = tbl_names |>
   # Filter for sex = "F"
   filter(sex == "F") |>
   # Group by `first_letter`, `last_letter`, and `year`
-  group_by(first_letter, last_letter, year)
+  group_by(first_letter, last_letter, year) |>
   # Summarize total number of births
   summarize(nb_births = sum(nb_births), .groups = "drop") |>
   # Group by `year`
-  group_by(year)
+  group_by(year) |>
   # Add NEW column pct_births by dividing nb_births by sum(nb_births)
   mutate(pct_births = nb_births/sum(nb_births)) |>
   # Ungroup data
@@ -336,13 +336,13 @@ Now, you will visualize the distribution of `pct_births` by `last_letter` and `f
 ```{r question-4-visualize}
 tbl_names_by_first_and_last_letter |> 
   # Filter for the year 2021
-  
+  filter(year ==2021) |>
   # Initialize a ggplot of last_letter vs. first_letter
-  
+  ggplot(aes(x=first_letter, y=last_letter)) +
   # Add a `geom_tile` layer with fill mapped to pct_births
-  
+  geom_tile(aes(fill+pct_births)) +
   # Add labels (title, subtitle, x, y, fill)
- 
+ labs(
   
   
   
