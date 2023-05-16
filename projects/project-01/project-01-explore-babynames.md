@@ -381,7 +381,7 @@ plot_trends_in_letter <- function(my_letter) {
     # Filter for first_letter = my_letter
     filter(first_letter == my_letter) |> 
     # Initialize a ggplot of pct_births vs. year colored by sex
-    ggplot(aes(x=year, y=pct_births, color_sex)) +
+    ggplot(aes(x=year, y=pct_births, color=sex)) +
     # Add a line layer
     geom_line() +
     # Add labels (title, subtitle, caption, x, y)
@@ -393,7 +393,7 @@ plot_trends_in_letter <- function(my_letter) {
       y = '% of names'
     ) +
     # Update y-axis scales to display percentages
-    scale_y_continuous(labels = scales::percent_format()) +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
     # Update theme
     theme(plot.title.position = "plot")
 }
