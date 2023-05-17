@@ -568,28 +568,16 @@ tbl_names_vowel_consonant |>
 
 ``` r
   # Add an area layer with fill = first_last
-  geom_area()
-```
-
-    #> geom_area: na.rm = FALSE, orientation = NA, outline.type = upper
-    #> stat_align: na.rm = FALSE, orientation = NA
-    #> position_stack
-
-``` r
+  geom_area(aes(fill=first_last)) +
   # Facet wrap plot by `sex`
-  facet_wrap()
-```
-
-    #> Error in facet_wrap(): argument "facets" is missing, with no default
-
-``` r
+  facet_wrap("sex") +
   # Add labels (title, subtitle, caption, x, y)
   labs(   )
 ```
 
-    #> named list()
-    #> attr(,"class")
-    #> [1] "labels"
+    #> Error:
+    #> ! Cannot add <ggproto> objects together
+    #> ℹ Did you forget to add this object to a <ggplot> object?
 
 ``` r
   # Clean up x and y axis scales
