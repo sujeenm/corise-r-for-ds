@@ -406,13 +406,13 @@ tbl_names_vowel_consonant |>
   # Reorder `first_last` by the median `pct_births`
   mutate(first_last = fct_reorder(first_last, pct_births, median)) |>
   # Initialize a ggplot of `pct_births` vs. `year`
-  
+  ggplot()
   # Add an area layer with fill = first_last
-  
+  geom_area()
   # Facet wrap plot by `sex`
-  
+  facet_wrap()
   # Add labels (title, subtitle, caption, x, y)
-  
+  labs(   )
   
   
   

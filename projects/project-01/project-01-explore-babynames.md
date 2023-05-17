@@ -561,20 +561,37 @@ tbl_names_vowel_consonant |>
   # Reorder `first_last` by the median `pct_births`
   mutate(first_last = fct_reorder(first_last, pct_births, median)) |>
   # Initialize a ggplot of `pct_births` vs. `year`
-  
+  ggplot()
+```
+
+<img src="img/question-5-visualize-1.png" width="100%" style="display: block; margin: auto;" />
+
+``` r
   # Add an area layer with fill = first_last
-  
+  geom_area()
+```
+
+    #> geom_area: na.rm = FALSE, orientation = NA, outline.type = upper
+    #> stat_align: na.rm = FALSE, orientation = NA
+    #> position_stack
+
+``` r
   # Facet wrap plot by `sex`
-  
+  facet_wrap()
+```
+
+    #> Error in facet_wrap(): argument "facets" is missing, with no default
+
+``` r
   # Add labels (title, subtitle, caption, x, y)
-  
-  
-  
-  
+  labs(   )
+```
 
+    #> named list()
+    #> attr(,"class")
+    #> [1] "labels"
 
-
-
+``` r
   # Clean up x and y axis scales
   scale_x_continuous(
     expand = c(0, 0)
