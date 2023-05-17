@@ -561,25 +561,25 @@ tbl_names_vowel_consonant |>
   # Reorder `first_last` by the median `pct_births`
   mutate(first_last = fct_reorder(first_last, pct_births, median)) |>
   # Initialize a ggplot of `pct_births` vs. `year`
-  ggplot()
-```
-
-<img src="img/question-5-visualize-1.png" width="100%" style="display: block; margin: auto;" />
-
-``` r
+  ggplot(aes(x=year, y=pct_births)) +
   # Add an area layer with fill = first_last
   geom_area(aes(fill=first_last)) +
   # Facet wrap plot by `sex`
   facet_wrap("sex") +
   # Add labels (title, subtitle, caption, x, y)
-  labs(   )
-```
+  labs(
+    title = "% OF LETTER TYPES",
+    subtitles = " TRENDS IN YRS",
+    caption = " %  of COMBINATION of LETTER TYPES",
+    
+    
+  
+  
+  
 
-    #> Error:
-    #> ! Cannot add <ggproto> objects together
-    #> ℹ Did you forget to add this object to a <ggplot> object?
 
-``` r
+
+
   # Clean up x and y axis scales
   scale_x_continuous(
     expand = c(0, 0)
@@ -597,9 +597,10 @@ tbl_names_vowel_consonant |>
   )
 ```
 
-    #> Error:
-    #> ! Cannot add <ggproto> objects together
-    #> ℹ Did you forget to add this object to a <ggplot> object?
+    #> Error: <text>:39:0: unexpected end of input
+    #> 37:     legend.position = 'bottom'
+    #> 38:   )
+    #>    ^
 
 ------------------------------------------------------------------------
 
