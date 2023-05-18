@@ -571,15 +571,9 @@ tbl_names_vowel_consonant |>
     title = "% OF LETTER TYPES",
     subtitles = " TRENDS IN YRS",
     caption = " %  of COMBINATION of LETTER TYPES",
-    
-    
-  
-  
-  
-
-
-
-
+    x = "year",
+    y = " %"
+  ) +
   # Clean up x and y axis scales
   scale_x_continuous(
     expand = c(0, 0)
@@ -597,10 +591,7 @@ tbl_names_vowel_consonant |>
   )
 ```
 
-    #> Error: <text>:39:0: unexpected end of input
-    #> 37:     legend.position = 'bottom'
-    #> 38:   )
-    #>    ^
+<img src="img/question-5-visualize-1.png" width="100%" style="display: block; margin: auto;" />
 
 ------------------------------------------------------------------------
 
