@@ -415,9 +415,9 @@ tbl_names_vowel_consonant |>
   facet_wrap("sex") +
   # Add labels (title, subtitle, caption, x, y)
   labs(
-    title = "% OF LETTER TYPES",
-    subtitles = " TRENDS IN YRS",
-    caption = " %  of COMBINATION of LETTER TYPES",
+    title = "% of LETTER TYPES",
+    subtitles = " TRENDS in YRS",
+    caption = " % of COMBINATION of LETTER TYPES",
     x = "year",
     y = " %"
   ) +
