@@ -1,6 +1,9 @@
 ---
 output: github_document
 ---
+```{r}
+
+```
 
 
 ```{r setup, message = FALSE, include = FALSE}
@@ -40,14 +43,14 @@ Let us start by reading in the baby names data from `data/names.csv.gz`.
 
 ```{r tbl-names, message=FALSE}
 # Load the tidyverse package
-
+library(tidyverse)
 
 # Read data/names.csv.gz into a data frame named `tbl_names`
-
-
+file_name_names <- here::here('data/names.csv.gz')
+tbl_names <- readr::read_csv(file_name_names, show_col_types = TRUE)
 
 # Print tbl_names
-
+tbl_names
 ```
 
 
@@ -118,10 +121,10 @@ We already ran the code above and saved the data as `data/lifetables.csv.gz`. Le
 
 ```{r tbl-lifetables}
 # Read data/lifetables.csv.gz into a data frame named `tbl_lifetables`
-
-
+file_names_names <- here::here('data/lifetables.csv.gz')
+tbl_lifetables <- readr::read_csv(file_names_names, show_col_types = TRUE)
 # Print `tbl_lifetables`
-
+tbl_lifetables
 ```
 
 It is always a good idea to plot the data to understand it better. Given that this is a table of probabilities of survival, let us plot the survival curve for a person to be alive in 2022 based on the year they were born.
@@ -129,18 +132,18 @@ It is always a good idea to plot the data to understand it better. Given that th
 ```{r plot-lifetables}
 tbl_lifetables |> 
   # Filter for rows where age and year sum up to 2022
-  filter(___ + ___ == ___) |> 
+  filter(age+ year == 2020) |> 
   # Initialize a ggplot of year vs. probability of being alive (lx/10^5)
-  ___(___(x = ___, y = ___, color = ___)) +
+  ggplot(aes(x = year, y = (lx/10^5), color = sex)) +
   # Add a step layer
   geom_step() +
   # Add labels (title, subtitle, x, y, caption)
   labs(
-    title = ""___"",
-    subtitle = ""___"",
-    x = "___",
-    y = ""___"",
-    caption = ""Source: ___""
+    title = "SURVIVAL RATE 2022",
+    subtitle = "LIVING PROBABILITY in 2022 based on Birth YEAR",
+    x = " Year",
+    y = "LIVING PROBABILITY",
+    caption = "Source: USA:SSA"
   ) +
   # Update theme to move plot title
   theme(plot.title.position = 'plot')

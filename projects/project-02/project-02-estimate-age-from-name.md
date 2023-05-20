@@ -3,13 +3,14 @@
 
 ![shakespeare-whats-in-a-name](https://miro.medium.com/v2/resize:fit:800/1*Prp8tivsOP54c-bPTpxj5A.png)
 
-So, what more is in a name? Well, with some further work, it is possible
-to predict the age of a person based on the name (Whoa! Really????). The
-popular FiveThirtyEight published a [blog
+So, what more is in a name? Believe it or not, it is possible to predict
+the age of a person based on their name (Whoa! Really????). In fact,
+FiveThirtyEight, a popular website that focuses on data-driven
+journalism, published a [blog
 post](https://fivethirtyeight.com/features/how-to-tell-someones-age-when-all-you-know-is-her-name/)
-on this in 2014. Would it not be fun to try and replicate the results?
-Actually, we are going to do more than just replicate the results, since
-we now have 7 years worth of additional data.
+on this in 2014. Wouldn’t it be exciting to try and replicate their
+findings? Actually, we are going to do more than just replicate their
+results, since we now have 7 years worth of additional data.
 
 ![estimate-age-from-name](https://fivethirtyeight.com/wp-content/uploads/2014/05/silver-feature-most-common-women-names3.png)
 
@@ -17,17 +18,18 @@ we now have 7 years worth of additional data.
 
 #### Names
 
-Let us start by reading in the babynames data from `data/names.csv.gz`.
+Let us start by reading in the baby names data from `data/names.csv.gz`.
 
 ``` r
 # Load the tidyverse package
-
+library(tidyverse)
 
 # Read data/names.csv.gz into a data frame named `tbl_names`
-
-
+file_name_names <- here::here('data/names.csv.gz')
+tbl_names <- readr::read_csv(file_name_names, show_col_types = TRUE)
 
 # Print tbl_names
+tbl_names
 ```
 
 #### Lifetables
@@ -114,9 +116,10 @@ We already ran the code above and saved the data as
 
 ``` r
 # Read data/lifetables.csv.gz into a data frame named `tbl_lifetables`
-
-
+file_names_names <- here::here('data/lifetables.csv.gz')
+tbl_lifetables <- readr::read_csv(file_names_names, show_col_types = TRUE)
 # Print `tbl_lifetables`
+tbl_lifetables
 ```
 
 It is always a good idea to plot the data to understand it better. Given
@@ -127,18 +130,18 @@ were born.
 ``` r
 tbl_lifetables |> 
   # Filter for rows where age and year sum up to 2022
-  filter(___ + ___ == ___) |> 
+  filter(age+ year == 2020) |> 
   # Initialize a ggplot of year vs. probability of being alive (lx/10^5)
-  ___(___(x = ___, y = ___, color = ___)) +
+  ggplot(aes(x = year, y = (lx/10^5), color = sex)) +
   # Add a step layer
   geom_step() +
   # Add labels (title, subtitle, x, y, caption)
   labs(
-    title = ""___"",
-    subtitle = ""___"",
-    x = "___",
-    y = ""___"",
-    caption = ""Source: ___""
+    title = "SURVIVAL RATE 2022",
+    subtitle = "LIVING PROBABILITY in 2022 based on Birth YEAR",
+    x = " Year",
+    y = "LIVING PROBABILITY",
+    caption = "Source: USA:SSA"
   ) +
   # Update theme to move plot title
   theme(plot.title.position = 'plot')
