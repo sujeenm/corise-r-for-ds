@@ -1,5 +1,7 @@
 ---
 output: github_document
+editor_options: 
+  chunk_output_type: inline
 ---
 ```{r}
 
@@ -190,22 +192,22 @@ tbl_lifetables_extended_2022 <- tbl_lifetables_extended |>
 
 tbl_lifetables_extended_2022 |> 
   # Initialize a ggplot of year vs. probability of being alive (lx/10^5)
-  
+  ggplot(aes (x=year, year = lx/10^5, color = sex)) +
   # Add a line layer
- 
+ geom_line() +
   # Add a step layer for the non-imputed data
   geom_step(
     data = function(d) filter(d, !is_imputed),
     linetype = 'dashed'
   ) +
   # Add labels (title, subtitle, x, y, caption)
+    title = " SURVIVAL RATE GRAPH IN 2022 ",
+    subtitle = "PROBABILITY of SURVIVAL",
+    x = " YEAR",
+    y = " LIVING PROBABILITY",
+    caption = "SOURCE: USA SSA"
+  ) +
 
-  
-  
-  
-  
-  
-  
   # Update theme to move plot title
   theme(plot.title.position = 'plot')
 ```
