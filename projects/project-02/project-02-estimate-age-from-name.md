@@ -206,15 +206,16 @@ tbl_lifetables_extended_2022 <- tbl_lifetables_extended |>
 
 tbl_lifetables_extended_2022 |> 
   # Initialize a ggplot of year vs. probability of being alive (lx/10^5)
-  ggplot(aes (x=year, year = lx/10^5, color = sex)) +
+  ggplot(aes (x = year, y = lx/10^5, color = sex)) +
   # Add a line layer
- geom_line() +
+  geom_line() +
   # Add a step layer for the non-imputed data
   geom_step(
     data = function(d) filter(d, !is_imputed),
     linetype = 'dashed'
   ) +
   # Add labels (title, subtitle, x, y, caption)
+  labs(
     title = " SURVIVAL RATE GRAPH IN 2022 ",
     subtitle = "PROBABILITY of SURVIVAL",
     x = " YEAR",
