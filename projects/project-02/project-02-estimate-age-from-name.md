@@ -182,9 +182,9 @@ no longer necessary.
 ``` r
 tbl_lifetables_extended <- tbl_lifetables |> 
   # Select the columns sex, age, year, and lx
-  
+  select(sex, age, year, lx) |>
   # Group by sex and age
-  
+  group_by(sex, age) |>
   # Complete the sequence of years
   complete(year = full_seq(year, period = 1)) |> 
   # Add a NEW boolean column to indicate if the data is imputed
