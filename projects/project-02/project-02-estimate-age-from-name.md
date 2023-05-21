@@ -302,9 +302,9 @@ plot_estimated_age <- function(tbl, my_name, my_sex) {
     # Initialize a ggplot with x = year
     ggplot(aes(x = year)) +
     # Add a column layer with y = nb_alive, and appropriate colors
-    geom_col(aes (y = nb_alive, color = "white", width color = green ))+
+    geom_col(aes (y = nb_alive, colors = "Estimated number of people alive"), width
     # Add a line layer with y = nb_births, and appropriate colors
-    geom_line(aes (y = nb_births, color = "green")) +
+    geom_line(aes (y = nb_births, colors = "Number of Births")) +
     # Add a vertical line for the median age
     geom_vline(
       aes(xintercept = 2022 - age_median), 
