@@ -283,7 +283,7 @@ estimate_age_stats <- function(tbl) {
 
 tbl_names_extended |> 
   # Filter for Gertrude/F
-  dplyr::filter(name == "___", sex == "___") |>
+  dplyr::filter(name == "Gertrude", sex == "F") |>
   # Estimate age stats
   estimate_age_stats()
 ```
@@ -296,15 +296,15 @@ visualize the age distribution for people with different names.
 plot_estimated_age <- function(tbl, my_name, my_sex) {
   tbl |> 
     # Filter to keep only rows with `my_name` and `my_sex`
-    filter(name == ___, sex == ___) |> 
+    filter(name == my_name, sex == my_sex) |> 
     # Add a column `age_median` with the weighted mean of age and nb_alive
     mutate(age_median = weighted.mean(age, nb_alive)) |> 
     # Initialize a ggplot with x = year
-
+    ggplot(aes(x = year)) +
     # Add a column layer with y = nb_alive, and appropriate colors
-    
+    geom_col(aes(y = nb_alive, fill = "Estimated number of people alive")),
     # Add a line layer with y = nb_births, and appropriate colors
-    
+    geom_line((aes nb_births, color = "Number of BIRTHS")) +
     # Add a vertical line for the median age
     geom_vline(
       aes(xintercept = 2022 - age_median), 
@@ -314,9 +314,9 @@ plot_estimated_age <- function(tbl, my_name, my_sex) {
     # Add labels (title, subtitle, x, y)
     labs(
       title = glue::glue('Age Distribution of American Girls Named {my_name}'),
-      subtitle = "___",
-      x = "___"
-      y = "___"
+      subtitle = "AGE DISTRIBITION for people with DIFFERENT NAMES",
+      x = "YEAR"
+      y = "FREQUENCY"
     ) +
     # Add an annotation for number of people estimated to be alive
     annotate(
