@@ -277,9 +277,9 @@ plot_estimated_age <- function(tbl, my_name, my_sex) {
     # Initialize a ggplot with x = year
     ggplot(aes(x = year)) +
     # Add a column layer with y = nb_alive, and appropriate colors
-    geom_col(aes (y = nb_alive, color = "blue")) +
+    geom_col(aes (y = nb_alive), color = 'blue') +
     # Add a line layer with y = nb_births, and appropriate colors
-    geom_line(aes (y = nb_births, color = "green")) +
+    geom_line(aes (y = nb_births), color = 'green') +
     # Add a vertical line for the median age
     geom_vline(
       aes(xintercept = 2022 - age_median), 
@@ -329,19 +329,17 @@ tbl_names_female_top_25 <- tbl_names |>
   # Group by sex and name
   group_by(sex, name) |>
   # Summarize total number of births
-  summarize(total_births = sum(nb_births) |>
+  summarize(total_births = sum(nb_births), .groups = "drop") |>
   
-  # Remove column nb_births
-  .groups = "drops" |>
+  # Remove column nb_births as PER ABOVE STATEMENT 
   # Filter only Females
   filter(sex == "F") |>
   # Slice top 25 rows
   slice_max(order_by = total_births, n=25) |>
   # Select name and sex
-  
-
+  select(name, sex)
 # Print `tbl_names_female_top_25`
-
+tbl_names_female_top_25
 ```
 
 Let us join `tbl_names_extended` with `tbl_names_female_top_25` so that we only keep rows corresponding to the top 25 female names.
@@ -349,13 +347,13 @@ Let us join `tbl_names_extended` with `tbl_names_female_top_25` so that we only 
 ```{r tbl-names-extended-age}
 tbl_names_extended_age <- tbl_names_extended |> 
   # Inner join the `tbl_names_female_top_25` table by `sex` and `name`
-  
+  inner_join(tbl_names_female_top_25, by = c("sex", "name")) |>
   # Group by name and sex
-   
+   group_by(name, sex) |>
   # Estimate age stats
   estimate_age_stats() |> 
   # Arrange the data based on median age
-   
+   arrange(age_median) |>
   # Clean the names
   janitor::clean_names()
 
@@ -369,25 +367,25 @@ tbl_names_extended_age |>
   # Reorder name based on descending median age 
   mutate(name = fct_reorder(name, desc(age_median))) |> 
   # Initialize a ggplot of age_median vs. name
-  
+  ggplot(aes(x = age_median, y=name)) +
   # Add a segment layer: x = x25_percent, xend = x75_percent and y_end = name
   geom_segment(
     aes(
-      x = ___,
-      xend = ___, 
-      yend = ___
+      x = x25_percent,
+      xend =  x75_percent,
+      yend = name
     ),
-    color = ""___"",
+    color = "blue",
     linewidth = 5
   ) +
   # Add a point layer:
-  geom_point(size = 2, color = ""___"") +
+  geom_point(size = 2, color = "orange") +
   # Add labels (title, subtitle, x, y)
   labs(
-    title = "___",
-    subtitle = "___",
-    x = "___",
-    y = "___"
+    title = "MEDIAN AGE 4 FEAMLES with 25 MOST COMMON NAMES",
+    subtitle = "LIVING AMERICANS",
+    x = "MEDIAN AGE",
+    y = "NAME"
   ) +
   # Update theme to clean up visual appearance of the plot
   theme(
