@@ -106,8 +106,8 @@ name.
 tbl_names_unisex_2 <- tbl_names_unisex_1 |> 
   pivot_wider(
     names_from = sex, 
+    values_from = nb_births,
     names_prefix = 'nb_births_',
-    values_from = nb_births, 
     values_fill = 0
   )
 
@@ -169,34 +169,27 @@ low-volume idiosyncratic names.
 ``` r
 tbl_names_unisex_4 <- tbl_names_unisex_3 |> 
   filter(
-    pct_births_M > 0.33,
-    pct_births_F > 0.33,
+    pct_births_M > 0.3,
+    pct_births_F > 0.3,
     nb_births_total > 50000
   ) |> 
   arrange(desc(nb_births_total))
 
 tbl_names_unisex_4
-#> # A tibble: 18 × 6
+#> # A tibble: 23 × 6
 #>    name    nb_births_M nb_births_F nb_births_total pct_births_M pct_births_F
 #>    <chr>         <dbl>       <dbl>           <dbl>        <dbl>        <dbl>
 #>  1 Jessie       110714      168626          279340        0.396        0.604
 #>  2 Riley         98494      123172          221666        0.444        0.556
 #>  3 Casey        112422       77093          189515        0.593        0.407
 #>  4 Jackie        78684       90928          169612        0.464        0.536
-#>  5 Peyton        50509       80495          131004        0.386        0.614
-#>  6 Jaime         69610       49914          119524        0.582        0.418
-#>  7 Kerry         49770       48610           98380        0.506        0.494
-#>  8 Kendall       34648       62542           97190        0.356        0.644
-#>  9 Jody          31383       55775           87158        0.360        0.640
-#> 10 Frankie       41376       34954           76330        0.542        0.458
-#> 11 Quinn         34303       41171           75474        0.455        0.545
-#> 12 Harley        39777       27687           67464        0.590        0.410
-#> 13 Pat           26733       40123           66856        0.400        0.600
-#> 14 Skyler        40372       25744           66116        0.611        0.389
-#> 15 Emerson       28321       26304           54625        0.518        0.482
-#> 16 Tommie        34320       17539           51859        0.662        0.338
-#> 17 Emery         19077       31289           50366        0.379        0.621
-#> 18 Rowan         32712       17341           50053        0.654        0.346
+#>  5 Johnnie      101816       49043          150859        0.675        0.325
+#>  6 Peyton        50509       80495          131004        0.386        0.614
+#>  7 Jaime         69610       49914          119524        0.582        0.418
+#>  8 Kerry         49770       48610           98380        0.506        0.494
+#>  9 Kendall       34648       62542           97190        0.356        0.644
+#> 10 Jody          31383       55775           87158        0.360        0.640
+#> # ℹ 13 more rows
 ```
 
 #### Step 5
@@ -213,27 +206,28 @@ tbl_names_unisex_5 <- tbl_names_unisex_4 |>
   ungroup()
 
 tbl_names_unisex_5
-#> # A tibble: 18 × 3
+#> # A tibble: 23 × 3
 #>    name    nb_births_total data            
 #>    <chr>             <dbl> <list>          
 #>  1 Jessie           279340 <tibble [1 × 2]>
 #>  2 Riley            221666 <tibble [1 × 2]>
 #>  3 Casey            189515 <tibble [1 × 2]>
 #>  4 Jackie           169612 <tibble [1 × 2]>
-#>  5 Peyton           131004 <tibble [1 × 2]>
-#>  6 Jaime            119524 <tibble [1 × 2]>
-#>  7 Kerry             98380 <tibble [1 × 2]>
-#>  8 Kendall           97190 <tibble [1 × 2]>
-#>  9 Jody              87158 <tibble [1 × 2]>
-#> 10 Frankie           76330 <tibble [1 × 2]>
-#> 11 Quinn             75474 <tibble [1 × 2]>
-#> 12 Harley            67464 <tibble [1 × 2]>
-#> 13 Pat               66856 <tibble [1 × 2]>
-#> 14 Skyler            66116 <tibble [1 × 2]>
-#> 15 Emerson           54625 <tibble [1 × 2]>
-#> 16 Tommie            51859 <tibble [1 × 2]>
-#> 17 Emery             50366 <tibble [1 × 2]>
-#> 18 Rowan             50053 <tibble [1 × 2]>
+#>  5 Johnnie          150859 <tibble [1 × 2]>
+#>  6 Peyton           131004 <tibble [1 × 2]>
+#>  7 Jaime            119524 <tibble [1 × 2]>
+#>  8 Kerry             98380 <tibble [1 × 2]>
+#>  9 Kendall           97190 <tibble [1 × 2]>
+#> 10 Jody              87158 <tibble [1 × 2]>
+#> # ℹ 13 more rows
+```
+
+``` r
+tbl_names_unisex_5$data[[1]]
+#> # A tibble: 1 × 2
+#>   pct_births_M pct_births_F
+#>          <dbl>        <dbl>
+#> 1        0.396        0.604
 ```
 
 While we have broken down the transformations into multiple pieces so we
@@ -302,7 +296,7 @@ tbl_names_unisex |>
   fmt_number(nb_births_total, decimals = 0) |> 
   # Add a table column with a stacked horizontal bar plot
   gtExtras::gt_plt_bar_stack(
-    data, 
+    data,
     width = 65,
     labels = c("MALE", "FEMALE"),
     palette= c("#2596be", "#f4ba19"),
@@ -318,7 +312,7 @@ tbl_names_unisex |>
   gtExtras::gt_theme_538()
 ```
 
-![unisex-names](https://i.imgur.com/KxQBNaU.png)
+<img src="https://i.imgur.com/KxQBNaU.png" width="100%" />
 
 A detailed explanation of the code is provided below. Note that you can
 always use the `?` in R to learn more about a specific function.
@@ -430,6 +424,59 @@ tbl_names_unisex_v2_2
 #> # ℹ 112,610 more rows
 ```
 
+**Understanding the Difference between Mutate and Summarize**
+
+Note that you can use `mutate()` as well as `summarize()` after a
+`group_by()`. The key difference is that `summarize()` will collapse the
+data into ONE row per group, whereas `mutate()` will keep the number of
+rows unchanged.
+
+Let us understand the impact of using `summarize()` vs using `mutate()`.
+We filter the data for a specific name so it is easier to look at the
+output and understand its impact.
+
+When we use summarize, the data is collapsed into ONE row. In this
+example, we have a new column `nb_births_total` that summarizes the
+total number of births having the name “Casey”.
+
+Note that the only columns that survived were the grouping column and
+the columns explicitly defined inside the `summarize()`.
+
+``` r
+tbl_names_unisex_v2_1 |> 
+  filter(name == "Casey") |> 
+  # Group by name
+  group_by(name) |> 
+  # For each name, add NEW columns with number and pct of births
+  summarize(
+    nb_births_total = sum(nb_births)
+  )
+#> # A tibble: 1 × 2
+#>   name  nb_births_total
+#>   <chr>           <dbl>
+#> 1 Casey          189515
+```
+
+On the other hand, when we use `mutate()`, the all existing rows and
+columns are preserved, and `nb_births_total` is added as a new column.
+
+``` r
+tbl_names_unisex_v2_1 |> 
+  filter(name == "Casey") |> 
+  # Group by name
+  group_by(name) |> 
+  # For each name, add NEW columns with number and pct of births
+  mutate(
+    nb_births_total = sum(nb_births)
+  )
+#> # A tibble: 2 × 4
+#> # Groups:   name [1]
+#>   name  sex   nb_births nb_births_total
+#>   <chr> <chr>     <dbl>           <dbl>
+#> 1 Casey F         77093          189515
+#> 2 Casey M        112422          189515
+```
+
 #### Step 3
 
 We filter the data to only keep rows
@@ -441,7 +488,7 @@ We filter the data to only keep rows
 
 ``` r
 tbl_names_unisex_v2_3 <- tbl_names_unisex_v2_2 |> 
-  filter(sex == "M") |> 
+  filter(sex == "F") |> 
   # Keep only names with more than 50,000 births and pct between 0.33 and 0.67
   filter(
     # Filter for pct_births between 0.33 and 0.67
@@ -454,24 +501,24 @@ tbl_names_unisex_v2_3
 #> # A tibble: 18 × 5
 #>    name    sex   nb_births nb_births_total pct_births
 #>    <chr>   <chr>     <dbl>           <dbl>      <dbl>
-#>  1 Casey   M        112422          189515      0.593
-#>  2 Emerson M         28321           54625      0.518
-#>  3 Emery   M         19077           50366      0.379
-#>  4 Frankie M         41376           76330      0.542
-#>  5 Harley  M         39777           67464      0.590
-#>  6 Jackie  M         78684          169612      0.464
-#>  7 Jaime   M         69610          119524      0.582
-#>  8 Jessie  M        110714          279340      0.396
-#>  9 Jody    M         31383           87158      0.360
-#> 10 Kendall M         34648           97190      0.356
-#> 11 Kerry   M         49770           98380      0.506
-#> 12 Pat     M         26733           66856      0.400
-#> 13 Peyton  M         50509          131004      0.386
-#> 14 Quinn   M         34303           75474      0.455
-#> 15 Riley   M         98494          221666      0.444
-#> 16 Rowan   M         32712           50053      0.654
-#> 17 Skyler  M         40372           66116      0.611
-#> 18 Tommie  M         34320           51859      0.662
+#>  1 Casey   F         77093          189515      0.407
+#>  2 Emerson F         26304           54625      0.482
+#>  3 Emery   F         31289           50366      0.621
+#>  4 Frankie F         34954           76330      0.458
+#>  5 Harley  F         27687           67464      0.410
+#>  6 Jackie  F         90928          169612      0.536
+#>  7 Jaime   F         49914          119524      0.418
+#>  8 Jessie  F        168626          279340      0.604
+#>  9 Jody    F         55775           87158      0.640
+#> 10 Kendall F         62542           97190      0.644
+#> 11 Kerry   F         48610           98380      0.494
+#> 12 Pat     F         40123           66856      0.600
+#> 13 Peyton  F         80495          131004      0.614
+#> 14 Quinn   F         41171           75474      0.545
+#> 15 Riley   F        123172          221666      0.556
+#> 16 Rowan   F         17341           50053      0.346
+#> 17 Skyler  F         25744           66116      0.389
+#> 18 Tommie  F         17539           51859      0.338
 ```
 
 We can put them together in a single data pipeline.
@@ -537,6 +584,30 @@ tbl_names_unisex_trends_1
 #>  9  1880 Tommie  M            15              25      0.6  
 #> 10  1880 Pat     M            12              12      1    
 #> # ℹ 3,652 more rows
+```
+
+You can filter the data for a particular name and arrange it by year to
+see what the transformations are doing.
+
+``` r
+tbl_names_unisex_trends_1 |> 
+  filter(name == "Casey") |> 
+  arrange(year)
+#> # A tibble: 207 × 6
+#> # Groups:   name, year [128]
+#>     year name  sex   nb_births nb_births_total pct_births
+#>    <dbl> <chr> <chr>     <dbl>           <dbl>      <dbl>
+#>  1  1888 Casey M             6               6          1
+#>  2  1890 Casey M             5               5          1
+#>  3  1892 Casey M             7               7          1
+#>  4  1894 Casey M             9               9          1
+#>  5  1895 Casey M             5               5          1
+#>  6  1897 Casey M             5               5          1
+#>  7  1898 Casey M             6               6          1
+#>  8  1900 Casey M            13              13          1
+#>  9  1901 Casey M             7               7          1
+#> 10  1903 Casey M            10              10          1
+#> # ℹ 197 more rows
 ```
 
 #### Step 5
@@ -718,4 +789,4 @@ tbl_names_unisex_trends |>
   gtExtras::gt_theme_538()
 ```
 
-![unisex-name-trends](https://i.imgur.com/0rIcZ24.png)
+<img src="https://i.imgur.com/0rIcZ24.png" width="100%" />
