@@ -302,9 +302,9 @@ plot_estimated_age <- function(tbl, my_name, my_sex) {
     # Initialize a ggplot with x = year
     ggplot(aes(x = year)) +
     # Add a column layer with y = nb_alive, and appropriate colors
-    geom_col(aes (y = nb_alive, colors = "Estimated number of people alive"), width
+    geom_col(aes (y = nb_alive, fill = 'white', color = 'green')) +
     # Add a line layer with y = nb_births, and appropriate colors
-    geom_line(aes (y = nb_births, colors = "Number of Births")) +
+    geom_line(aes (y = nb_births, colors = 'black')) +
     # Add a vertical line for the median age
     geom_vline(
       aes(xintercept = 2022 - age_median), 
@@ -343,7 +343,7 @@ plot_estimated_age <- function(tbl, my_name, my_sex) {
 }
 
 tbl_names_extended |> 
-  plot_estimated_age("Anna", "F")
+   plot_estimated_age("Anna", "F")
 ```
 
 Let us now get the top 25 most popular names for Females.
