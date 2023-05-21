@@ -513,7 +513,7 @@ tbl_names_extended_age |>
   geom_point(size = 2, color = "orange") +
   # Add labels (title, subtitle, x, y)
   labs(
-    title = "MEDIAN AGE 4 FEmales with 25 MOST COMMON NAMES",
+    title = "MEDIAN AGE 4 FEMALEs with 25 MOST COMMON NAMES",
     subtitle = "LIVING AMERICANS",
     x = "MEDIAN AGEs",
     y = "NAME"
