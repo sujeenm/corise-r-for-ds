@@ -12,7 +12,7 @@ editor_options:
 library(tidyverse)
 knitr::opts_chunk$set(
   echo = TRUE,
-  eval = FALSE,
+  eval = TRUE,
   collapse = TRUE,
   comment = "#>",
   fig.path = "img/",
@@ -277,9 +277,9 @@ plot_estimated_age <- function(tbl, my_name, my_sex) {
     # Initialize a ggplot with x = year
     ggplot(aes(x = year)) +
     # Add a column layer with y = nb_alive, and appropriate colors
-    geom_col(aes (y = nb_alive, fill = 'white', color = 'green')) +
+    geom_col(aes (y = nb_alive, color = "blue")) +
     # Add a line layer with y = nb_births, and appropriate colors
-    geom_line(aes (y = nb_births, colors = 'black')) +
+    geom_line(aes (y = nb_births, color = "green")) +
     # Add a vertical line for the median age
     geom_vline(
       aes(xintercept = 2022 - age_median), 
@@ -311,7 +311,7 @@ plot_estimated_age <- function(tbl, my_name, my_sex) {
       aes(label = glue::glue(
         "The median \n {name} is \n {round(age_median, 0)} years old"
       )),
-      color = 'darkred'
+      color = 'red'
     ) +
     # Update theme to move plot title
     theme(plot.title.position = 'plot')
