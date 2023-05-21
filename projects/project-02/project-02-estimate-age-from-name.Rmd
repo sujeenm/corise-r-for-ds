@@ -222,15 +222,15 @@ Let us now join `tbl_names` with `tbl_lifetables_extended_2022` and add two extr
 ```{r tbl-names-extended}
 tbl_names_extended <- tbl_names |> 
   # Left join with `tbl_lifetables_extended_2022` by `sex` and `year`.
-  ___(___, by = c("___", "___")) |> 
+  left_join(tbl_lifetables_extended_2022, by = c("sex", "year")) |> 
   # Remove any NAs in the age column
   filter(!is.na(age)) |> 
   # Add NEW column p_alive (= lx / 10^5) for probability of being alive
-  ___(___ = ___ / ___) |> 
+  mutate(p_alive= lx / 10^5) |> 
   # Remove the column `lx`
   select(!lx) |> 
   # Add NEW column nb_alive (= p_alive * nb_births) for number of people alive 
-  ___(___ = ___ * ___)
+  mutate(nb_alive = p_alive * nb_births)
 
 tbl_names_extended
 ```
